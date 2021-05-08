@@ -64,7 +64,7 @@ public class BasicJava {
         for(int i = 0; i<arr.length; i++){
             arr[i]= arr[i]*arr[i];
         }
-        System.out.println(arr);
+        System.out.println(Arrays.toString(arr));
     }
     public static void NegativesNumbers(int[] arr){
         for(int i=0; i<arr.length; i++){
@@ -72,7 +72,7 @@ public class BasicJava {
                 arr[i] = 0;
             }
         }
-        System.out.println(arr);
+        System.out.println(Arrays.toString(arr));
     }
     public static void MaxMinAvg(int[] arr){
         int max = arr[0];
@@ -95,6 +95,6 @@ public class BasicJava {
         int temp = arr[0];
         arr[0] = arr[arr.length-1];
         arr[arr.length-1] = temp;
-        System.out.println(arr);
+        System.out.println(Arrays.toString(arr));
     }
 }
