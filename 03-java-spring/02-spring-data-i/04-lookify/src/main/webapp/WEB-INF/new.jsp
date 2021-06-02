@@ -5,6 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="css/style.css">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 <meta charset="UTF-8">
 <title>Lookify</title>
@@ -12,17 +13,17 @@
 <body>
 <a href="/dashboard">Dashboard</a>
 <form:form action="/dashboard" method="post" modelAttribute="song">
-    <div class="form-group col-4">
+    <div class="form-group col-2">
         <form:label path="title">Title</form:label>
         <form:errors path="title"/>
         <form:input class="form-control" path="title"/>
     </div>
-    <div class="form-group col-4">
+    <div class="form-group col-2">
         <form:label path="artist">Artist</form:label>
         <form:errors path="artist"/>
         <form:input class="form-control" path="artist"/>
     </div>
-    <div class="form-group col-2">
+    <div class="form-group col-1">
         <form:label path="rating">Rating(1-10):</form:label>
         <form:errors path="rating"/>
         <form:select type="number" class="form-control" path="rating">

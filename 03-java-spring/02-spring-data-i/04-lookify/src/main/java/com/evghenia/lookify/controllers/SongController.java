@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.evghenia.lookify.models.Song;
 import com.evghenia.lookify.services.SongService;
@@ -50,4 +51,24 @@ public class SongController {
 		model.addAttribute("song",newSong);
 		return "show.jsp";
 	}
+	@GetMapping("/search/topTen")
+	public String getTopTen(Model model) {
+		List <Song> songs = songService.findTopTen();
+		model.addAttribute("songs", songs);
+		return "topTen.jsp";
+	}
+	@PostMapping(value = "/search")
+	public String search(@RequestParam("artist")String artist,Model model) {
+		List<Song> songs = songService.findByArtist(artist);
+		model.addAttribute("songs",songs);
+		model.addAttribute("artist",artist );
+		return "search.jsp";
+	}
+	@GetMapping("/songs/delete/{id}")
+	public String deleteSong(@PathVariable("id")Long id) {
+		this.songService.deleteSong(id);
+		return "redirect:/dashboard";
+	}
+	
+	
 }

@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="css/style.css">
 <meta charset="UTF-8">
 <title>Lookify</title>
 </head>
@@ -12,6 +13,6 @@
 <p><c:out value="${song.title}"/></p>
 <p><c:out value="${song.artist}"/></p>
 <p><c:out value="${song.rating}"/></p>
-<a href="/delete/{id}">Delete</a>
+<a href="/songs/delete/${song.id}">Delete</a>
 </body>
 </html>
