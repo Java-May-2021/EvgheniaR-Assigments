@@ -51,7 +51,7 @@ public class MainController {
 			return "license.jsp";
 		}else {
 			this.licenseService.createLicense(license);
-			return "redirect:/persons/new";
+			return "redirect:/persons/" +license.getPerson().getId();
 		}
 	}
 	@GetMapping("/persons/{id}")
