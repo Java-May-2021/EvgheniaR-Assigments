@@ -17,11 +17,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.evghenia.controllerandviews.models.User;
 import com.evghenia.controllerandviews.services.UserService;
+import com.evghenia.controllerandviews.validator.UserValidator;
 
 @Controller
 public class MainController {
 	@Autowired
     private UserService userService;
+	@Autowired
+	private UserValidator userValidator;
 	
 	@GetMapping("/registration")
 	public String registerForm(@ModelAttribute("user")User user) {
@@ -33,6 +36,7 @@ public class MainController {
 	}
 	@PostMapping(value="/registration")
 	public String createForm(@Valid@ModelAttribute("user")User user,BindingResult result,HttpSession session) {
+		userValidator.validate(user, result);
 		if(result.hasErrors()) {
 			return "registrationPage.jsp";
 		}else {

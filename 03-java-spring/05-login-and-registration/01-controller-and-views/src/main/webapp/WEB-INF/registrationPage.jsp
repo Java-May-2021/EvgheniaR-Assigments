@@ -18,7 +18,7 @@
     <form:form method="POST" action="/registration" modelAttribute="user">
         <div class="form-group ">
             <form:label path="email">Email:</form:label>
-            <form:input class="form-control" type="email" path="email"/>
+            <form:input class="form-control" path="email"/>
         </div>
         <div class="from-group">
             <form:label path="password">Password:</form:label>
