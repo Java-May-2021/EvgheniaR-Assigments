@@ -17,8 +17,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.evghenia.eventsbeltreviewer.models.Event;
+import com.evghenia.eventsbeltreviewer.models.Message;
 import com.evghenia.eventsbeltreviewer.models.User;
 import com.evghenia.eventsbeltreviewer.services.EventService;
+import com.evghenia.eventsbeltreviewer.services.MessageService;
 import com.evghenia.eventsbeltreviewer.services.UserService;
 import com.evghenia.eventsbeltreviewer.validator.UserValidator;
 
@@ -30,6 +32,8 @@ public class MainController {
 	private UserValidator userValidator;
 	@Autowired
 	private EventService eventService;
+	@Autowired 
+	private MessageService messageService;
 	
 	
 	
@@ -59,7 +63,7 @@ public class MainController {
 			return "redirect:/events";
 		}else {
 			redirs.addFlashAttribute("error","Invalid account.Please try again.");
-			return "login.jsp";
+			return "redirect:/";
 		}
 	}
 	@GetMapping("/events")
@@ -105,6 +109,55 @@ public class MainController {
 		}
 		this.eventService.updateEvent(event);
 		return "redirect:/events";
+	}
+	@GetMapping("/events/{id}/{choice}")
+	public String manageAttendees(@PathVariable("id") Long id, @PathVariable("choice") String choice, HttpSession session) {
+		Long userId = (Long)session.getAttribute("userId");
+		Event event = this.eventService.getOneEvent(id)	;
+		boolean isJoining = (choice.equals("join"));
+		if(userId == null)
+			return "redirect:/";
+		
+		User user = this.userService.findUserById(userId);
+		this.eventService.manageAttendees(event, user, isJoining);
+		
+		return "redirect:/events";
+	}
+	
+	
+	@GetMapping("/events/{id}/delete")
+	public String deleteEvent(@PathVariable("id")Long id) {
+		this.eventService.deleteEvent(id);
+		return "redirect:/events";
+	}
+	@GetMapping("events/{id}")
+	public String getOneEvent(@PathVariable("id")Long id,@ModelAttribute("newMessage")Message message,Model model,HttpSession session) {
+		Long userId = (Long)session.getAttribute("userId");
+		Event event = this.eventService.getOneEvent(id);
+		User user =this.userService.findUserById(userId);
+		List<Message> newMessage = this.messageService.getAllMessage();
+		if(session.getAttribute("userId") == null) 
+			return "redirect:/";
+		if(event == null)
+			return "redirect:/events";
+		model.addAttribute("event",event);
+		model.addAttribute("user",user);
+		model.addAttribute("messages",newMessage);
+		return "message.jsp";
+	}
+	@PostMapping("/events/{id}/comment")
+	public String createMessage(@Valid@ModelAttribute("messages")Message message,BindingResult result,HttpSession session,Model model,@PathVariable("id")Long id) {
+		Long userId = (Long)session.getAttribute("userId");
+		Event event= this.eventService.getOneEvent(id);
+		User user = userService.findUserById(userId);
+		if(result.hasErrors()) {
+			return "redirect:/events/{id} ";
+		}else {
+		   message.setAuthor(user);
+		   message.setCommentEvent(event);
+		   this.messageService.createMessage(message);
+		   return "redirect:/events/{id}";
+		}
 	}
 	
 	@GetMapping("/logout")

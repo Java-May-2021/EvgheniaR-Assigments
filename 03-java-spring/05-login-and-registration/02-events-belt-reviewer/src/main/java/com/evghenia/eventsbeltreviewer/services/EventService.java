@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.evghenia.eventsbeltreviewer.models.Event;
+import com.evghenia.eventsbeltreviewer.models.User;
 import com.evghenia.eventsbeltreviewer.repositories.EventRepository;
 
 @Service
 public class EventService {
-    @Autowired
+	@Autowired
     private EventRepository eventRepo;
     
     public Event createEvent(Event event) {
@@ -34,4 +35,13 @@ public class EventService {
     public List<Event> getEventsNoState(String state){
     	return this.eventRepo.findByStateIsNot(state);
     }
+    public void manageAttendees(Event event, User user, boolean isJoining) {
+		if(isJoining) {
+			event.getAttendees().add(user);
+		} else {
+			event.getAttendees().remove(user);
+		}
+		this.eventRepo.save(event);
+	}
 }
+

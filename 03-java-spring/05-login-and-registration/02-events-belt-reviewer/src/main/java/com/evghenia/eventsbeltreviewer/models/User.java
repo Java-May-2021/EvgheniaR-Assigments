@@ -1,7 +1,6 @@
 package com.evghenia.eventsbeltreviewer.models;
 
 import java.util.Date;
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -60,6 +59,11 @@ public class User{
     		inverseJoinColumns=@JoinColumn(name="event_id")
     )
 	private List<Event> eventsAttending;
+	
+    @OneToMany(mappedBy = "author",fetch=FetchType.LAZY)
+    private List<Message> messages;
+    
+    
 	@PrePersist
 	protected void onCreate() {
 		this.createdAt = new Date();
@@ -101,7 +105,6 @@ public class User{
 	public void setLocation(String location) {
 		this.location = location;
 	}
-	
 	public String getState() {
 		return state;
 	}
@@ -120,20 +123,6 @@ public class User{
 	public void setPasswordConfirmation(String passwordConfirmation) {
 		this.passwordConfirmation = passwordConfirmation;
 	}
-	
-	
-	public List<Event> getEventsPlanned() {
-		return eventsPlanned;
-	}
-	public void setEventsPlanned(List<Event> eventsPlanned) {
-		this.eventsPlanned = eventsPlanned;
-	}
-	public List<Event> getEventsAttending() {
-		return eventsAttending;
-	}
-	public void setEventsAttending(List<Event> eventsAttending) {
-		this.eventsAttending = eventsAttending;
-	}
 	public Date getCreatedAt() {
 		return createdAt;
 	}
@@ -146,7 +135,24 @@ public class User{
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	
+	public List<Event> getEventsPlanned() {
+		return eventsPlanned;
+	}
+	public void setEventsPlanned(List<Event> eventsPlanned) {
+		this.eventsPlanned = eventsPlanned;
+	}
+	public List<Event> getEventsAttending() {
+		return eventsAttending;
+	}
+	public void setEventsAttending(List<Event> eventsAttending) {
+		this.eventsAttending = eventsAttending;
+	}
+	public List<Message> getMessages() {
+		return messages;
+	}
+	public void setMessages(List<Message> messages) {
+		this.messages = messages;
+	}
 	
 	
 	
